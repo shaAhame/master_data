@@ -1,0 +1,38 @@
+name: Daily Customer Dashboard Update
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # Daily at 2 AM UTC
+  workflow_dispatch:   # Optional manual trigger
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Write Google Credentials
+        run: echo "${{ secrets.GOOGLE_CREDS }}" > credentials.json
+
+      - name: Run data update script
+        run: python update_data.py
+
+      - name: Commit updated CSV
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "GitHub Actions"
+          git add data/master_db.csv
+          git commit -m "Daily update $(date +'%Y-%m-%d')" || echo "No changes"
+          git push

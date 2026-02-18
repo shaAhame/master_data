@@ -1,0 +1,17 @@
+# Ignore credentials and secrets
+credentials.json
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment folders
+.env/
+.conda/
+venv/
+env/
+
+# Data files (optional, if you don’t want to push large CSVs)
+data/master_db.csv
