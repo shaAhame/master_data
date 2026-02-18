@@ -16,3 +16,4 @@ env/
 # Data files (optional, if you don’t want to push large CSVs)
 data/master_db.csv
 "credentials.json" 
+credentials.json 
