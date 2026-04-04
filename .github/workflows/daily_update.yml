@@ -23,8 +23,22 @@ jobs:
 
       - name: Write Google credentials
         run: |
-          echo "${{ secrets.GOOGLE_CREDS }}" > credentials.json
+          echo "${{ secrets.GOOGLE_CREDS }}" | base64 --decode > credentials.json
+
+      - name: Verify credentials file
+        run: |
+          if [ ! -s credentials.json ]; then
+            echo "ERROR: credentials.json is empty or missing!"
+            exit 1
+          else
+            echo "credentials.json created successfully"
+          fi
 
       - name: Run update script
         run: |
           python update_data.py
+
+      - name: Cleanup credentials
+        if: always()
+        run: |
+          rm -f credentials.json
