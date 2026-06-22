@@ -2,7 +2,7 @@ name: Update Master Data
 
 on:
   schedule:
-    - cron: '30 17 * * *'  # Runs daily at 7:00 UTC
+    - cron: '30 17 * * *'  # Runs daily at 17:30 UTC
   workflow_dispatch:      # allows manual run
 
 permissions:
